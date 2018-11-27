@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- fetch API 로 <article> 탭에 내용 출력. -->
+<!--
+fetch('javascript') : client(웹브라우저)가 server에게 자바스크립트라는 파일 요청해서 응답.
+-->
+<article>
+
+</article>
+<input type="button" value="fetch" onclick="
+    /*
+    fetch('css'). : fetch()의 첫번째 인자로 전달된 파일 요청.
+    then(function(response) { : 서버에게 요청 후 파일받는 시간이 길어질 때 아무것도 안할 수 없으니 그것을 해결하기 위해 등장.
+                                then(함수) : fetch API 의 응답이 끝나면 then()안에 있는 함수를 실행.
+                                function(response) { } : 익명함수(이름없는 함수)
+                                함수를 여러번 호출해야 할 땐 이름 필요하지만 그렇지 않을땐 그냥 익명함수 사용.
+                                이 경우, then()에서 이 함수 독점적으로 사용. 따라서 이름필요없음.
+                                then() 인자의 함수파라미터를 response 객체로 주어야함.
+                                response객체의 status를 보면 200은 정상. 404는 Not found.
+                                response.status 를 통해 접근가능.
+      response.text().then(function(text) {
+        alert(text);
+        document.querySelector('article').innerHTML = text;
+      })
+    })
+    */
+    /*
+    function callbackme() {
+        console.log('response end');
+    }
+    */
+    fetch('html').then(function(response) {
+        if(response.status == '404') {
+            alert('Not found');
+        }
+    });
+    console.log(1);
+    console.log(2);
+    /* 실행결과는 1 > 2 > response end  => Asynchronous 방식으로 동작하는 것을 볼 수 있다. */
+"/>
+</body>
+</html>
