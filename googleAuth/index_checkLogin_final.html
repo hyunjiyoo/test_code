@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+    <title>WEB1 - Welcome</title>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="colors.js"></script>
+    <script>
+        // 로그인의 상태 체크
+        function checkLoginStatus() {
+            var loginBtn = document.querySelector('#loginBtn');
+            // 로그인이 된 상태이면, GoogleAuth.isSignedIn.get() 이 true 리턴.
+            if(gauth.isSignedIn.get()) {
+                console.log('logined');
+                loginBtn.value = 'Logout';
+            } else {
+                console.log('logouted');
+                loginBtn.value = 'Login';
+            }
+        }
+
+        function init() {
+            console.log('init');
+            // 'auth2 라이브러리'의 로드가 끝나면 뒤에 있는 콜백함수 실행.
+            gapi.load('auth2', function() {
+                console.log('auth2');
+                // client_id 값을 주면 GoogleAuth 객체 리턴.
+                // var 를 쓰지않고, window. 을 쓰면 전역변수 만들 수 있다.
+                window.gauth = gapi.auth2.init({
+                    client_id:'402915477831-9a1ogje7q6p3t498kv0ke5gbio5rm49v.apps.googleusercontent.com'
+                })
+
+                gauth.then(function () {
+                    console.log('googleAuth success!!');
+                    checkLoginStatus();
+                }, function () {
+                    console.log('googleAuth fail!!');
+                });
+            });
+        }
+    </script>
+</head>
+<body>
+    <input type="button" id="loginBtn" value="checking..." onclick="
+        if (this.value === 'Login') {
+            // .then() 은 signIn() 함수가 끝나면 then()의 파라미터로 들어간 콜백함수 호출.
+            gauth.signIn().then(function() {
+                console.log('gauth.signIn()');
+                // checkLoginStatus();
+            });
+            this.value = 'Logout';
+        } else {
+            gauth.signOut().then(function() {
+                console.log('gauth.signOut()');
+                // checkLoginStatus();
+            });
+            this.value = 'Login';
+        }
+    ">
+    <h1><a href="index.html">WEB</a></h1>
+    <input id="night_day" type="button" value="night" onclick="
+        nightDayHandler(this);
+    ">
+    <ol>
+        <li><a href="1.html">HTML</a></li>
+        <li><a href="2.html">CSS</a></li>
+        <li><a href="3.html">JavaScript</a></li>
+    </ol>
+    <h2>WEB</h2>
+    <p>The World Wide Web (abbreviated WWW or the Web) is an information space where documents and other web resources are identified by Uniform Resource Locators (URLs), interlinked by hypertext links, and can be accessed via the Internet.[1] English scientist Tim Berners-Lee invented the World Wide Web in 1989. He wrote the first web browser computer program in 1990 while employed at CERN in Switzerland.[2][3] The Web browser was released outside of CERN in 1991, first to other research institutions starting in January 1991 and to the general public on the Internet in August 1991.
+    </p>
+    <!-- onload=init : 로드된 후 init() 함수 호출 -->
+    <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+</body>
+</html>
